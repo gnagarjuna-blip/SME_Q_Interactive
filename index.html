@@ -3,267 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Engineering Module</title>
+    <title>Interactive Engineering Analysis</title>
     <style>
         :root {
-            --primary: #2563eb;
-            --secondary: #64748b;
-            --success: #059669;
-            --error: #dc2626;
-            --bg: #f8fafc;
+            --primary-blue: #1a73e8;
+            --soft-bg: #fdfdfe;
+            --text-dark: #202124;
+            --border-color: #dadce0;
         }
+
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: #1e293b;
-            line-height: 1.6;
-            padding: 40px 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f3f4;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 40px 15px;
+            line-height: 1.8;
         }
+
         .container {
-            max-width: 850px;
+            max-width: 900px;
             margin: auto;
             background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        }
-        h1 { text-align: center; color: var(--primary); font-size: 2.2rem; margin-bottom: 40px; }
-        h2 { color: #334155; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
-        
-        .theory-box {
-            background: #f1f5f9;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 20px 0;
-            display: none; /* Hidden until answer is clicked */
+            padding: 50px;
+            border-radius: 24px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
         }
 
-        .equation-style {
-            font-family: "Times New Roman", serif;
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #0f172a;
-            display: block;
+        .main-title {
             text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            background: #fff;
-            border-radius: 8px;
+            color: var(--primary-blue);
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
-        .option-group { margin: 25px 0; }
-        
-        .option-row {
+        .question-header {
+            font-size: 1.6rem;
+            color: #3c4043;
+            margin-bottom: 25px;
+            border-left: 8px solid var(--primary-blue);
+            padding-left: 20px;
+        }
+
+        /* Option Styling */
+        .option-container {
+            margin: 30px 0;
+        }
+
+        .option-card {
             display: flex;
+            flex-direction: column;
+            border: 2px solid #e8eaed;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            padding: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--soft-bg);
+        }
+
+        .option-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            gap: 10px;
         }
 
-        .opt-btn {
-            flex-grow: 1;
-            padding: 15px 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            background: white;
-            cursor: pointer;
-            text-align: left;
-            font-size: 1.05rem;
-            font-weight: 600;
-            transition: 0.2s;
-        }
-        .opt-btn:hover { border-color: var(--primary); background: #eff6ff; }
-
-        /* Specific Option Colors */
-        .opt-a { color: #7c3aed; }
-        .opt-b { color: #2563eb; }
-        .opt-c { color: #db2777; }
-        .opt-d { color: #0891b2; }
-
-        .info-btn {
-            background: #cbd5e1;
-            color: #475569;
-            border: none;
-            width: 120px;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: help;
-            font-size: 0.85rem;
-            font-weight: bold;
+        .option-text {
+            font-size: 1.2rem;
+            font-weight: 700;
         }
 
-        .feedback {
-            display: none;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            font-weight: bold;
-            text-align: center;
-        }
+        /* Unique Color Fonts for Options */
+        .color-a { color: #d93025; } /* Red */
+        .color-b { color: #188038; } /* Green */
+        .color-c { color: #1a73e8; } /* Blue */
+        .color-d { color: #e37400; } /* Orange */
 
-        .pop-text {
-            display: none;
-            font-size: 0.9rem;
-            color: #64748b;
-            padding: 10px;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            margin-top: 5px;
-        }
-
-        .diagram-box {
-            text-align: center;
-            margin: 20px 0;
-            padding: 20px;
+        .btn-explain {
             background: #ffffff;
-            border: 1px dashed #cbd5e1;
+            border: 2px solid #5f6368;
+            color: #5f6368;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
         }
+
+        .btn-explain:hover {
+            background: #5f6368;
+            color: white;
+        }
+
+        .inner-explanation {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #dadce0;
+            color: #5f6368;
+            font-size: 1rem;
+            font-style: italic;
+        }
+
+        /* Feedback Section */
+        .feedback-area {
+            display: none;
+            text-align: center;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        /* Theory & Diagram Section */
+        .theory-module {
+            display: none;
+            background: #f8f9fa;
+            border: 1px solid #e8eaed;
+            border-radius: 16px;
+            padding: 35px;
+            margin-top: 40px;
+        }
+
+        .equation-block {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+            font-family: "Georgia", serif;
+            font-size: 1.5rem;
+            margin: 25px 0;
+            color: #202124;
+        }
+
+        .diagram-placeholder {
+            margin: 30px 0;
+            text-align: center;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .check { color: #188038; font-weight: bold; }
+        .cross { color: #d93025; font-weight: bold; }
+
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Engineering Concept Masterclass</h1>
+    <h1 class="main-title">Engineering Knowledge Portal</h1>
 
-    <section id="q1-container">
-        <h2>Q1. Induction Motor Analysis</h2>
-        <p><strong>Topic Introduction:</strong> Induction motors operate on the principle of electromagnetic induction. The relationship between the torque (turning force) and the slip (speed loss) defines the efficiency and starting capability of the machine.</p>
+    <div id="q1-wrapper">
+        <h2 class="question-header">Q1. Torque–Slip Characteristics of Induction Motors</h2>
         
-        <p>Consider the statements:<br>
-        1. Max torque is independent of rotor resistance.<br>
-        2. Max torque is proportional to square of applied voltage.<br>
-        3. At starting, slip is zero.<br>
-        4. Increasing rotor resistance shifts max torque towards higher slip.</p>
+        <p style="font-size: 1.1rem; color: #5f6368; margin-bottom: 30px;">
+            <strong>Topic Overview:</strong> Before analyzing the specific statements, it is vital to understand that the torque in an induction motor is a function of slip, voltage, and rotor impedance. The behavior changes significantly from the starting condition (standstill) to full-speed operation.
+        </p>
 
-        <div class="option-group">
-            <div class="option-row">
-                <button class="opt-btn opt-a" onclick="checkAns('q1', 'A')">A) 1 and 2 only</button>
-                <button class="info-btn" onclick="toggleInfo('i1a')">Option Info</button>
-            </div>
-            <div id="i1a" class="pop-text">Analyzes the relationship between voltage and torque but ignores the slip-shift property of resistance.</div>
+        <p><strong>Consider the following statements:</strong></p>
+        <ol style="font-weight: 500;">
+            <li>Maximum torque is independent of rotor resistance.</li>
+            <li>Maximum torque is proportional to square of applied voltage.</li>
+            <li>At starting condition, slip is zero.</li>
+            <li>Increasing rotor resistance shifts maximum torque towards higher slip.</li>
+        </ol>
 
-            <div class="option-row">
-                <button class="opt-btn opt-b" onclick="checkAns('q1', 'B')">B) 1, 2 and 4 only</button>
-                <button class="info-btn" onclick="toggleInfo('i1b')">Option Info</button>
+        <div class="option-container">
+            <div class="option-card" onclick="selectOption('q1', 'A')">
+                <div class="card-top">
+                    <span class="option-text color-a">Option A: 1 and 2 only</span>
+                    <button class="btn-explain" onclick="event.stopPropagation(); toggleCardInfo('q1-a')">Option Logic</button>
+                </div>
+                <div id="q1-a" class="inner-explanation">This selection recognizes the independence of peak torque from resistance and its relationship with voltage, but it fails to account for the crucial Statement 4 regarding slip shifting.</div>
             </div>
-            <div id="i1b" class="pop-text">Includes the independence of T-max from R2 and the quadratic relationship with voltage.</div>
 
-            <div class="option-row">
-                <button class="opt-btn opt-c" onclick="checkAns('q1', 'C')">C) 2 and 3 only</button>
-                <button class="info-btn" onclick="toggleInfo('i1c')">Option Info</button>
+            <div class="option-card" onclick="selectOption('q1', 'B')">
+                <div class="card-top">
+                    <span class="option-text color-b">Option B: 1, 2 and 4 only</span>
+                    <button class="btn-explain" onclick="event.stopPropagation(); toggleCardInfo('q1-b')">Option Logic</button>
+                </div>
+                <div id="q1-b" class="inner-explanation">The complete accurate set. It identifies that while resistance doesn't change the peak torque value, it does determine the speed at which that peak occurs.</div>
             </div>
-            <div id="i1c" class="pop-text">Focuses on starting conditions but misrepresents the numerical value of slip at standstill.</div>
 
-            <div class="option-row">
-                <button class="opt-btn opt-d" onclick="checkAns('q1', 'D')">D) 1, 3 and 4 only</button>
-                <button class="info-btn" onclick="toggleInfo('i1d')">Option Info</button>
+            <div class="option-card" onclick="selectOption('q1', 'C')">
+                <div class="card-top">
+                    <span class="option-text color-c">Option C: 2 and 3 only</span>
+                    <button class="btn-explain" onclick="event.stopPropagation(); toggleCardInfo('q1-c')">Option Logic</button>
+                </div>
+                <div id="q1-c" class="inner-explanation">Incorrect. This option relies on Statement 3, which is a physical impossibility for an induction motor at starting.</div>
             </div>
-            <div id="i1d" class="pop-text">Combines mechanical properties but fails due to the inclusion of the incorrect Statement 3.</div>
+
+            <div class="option-card" onclick="selectOption('q1', 'D')">
+                <div class="card-top">
+                    <span class="option-text color-d">Option D: 1, 3 and 4 only</span>
+                    <button class="btn-explain" onclick="event.stopPropagation(); toggleCardInfo('q1-d')">Option Logic</button>
+                </div>
+                <div id="q1-d" class="inner-explanation">Incorrect. Despite including Statement 4, the inclusion of Statement 3 makes the entire selection false.</div>
+            </div>
         </div>
 
-        <div id="q1-feedback" class="feedback"></div>
+        <div id="q1-feedback" class="feedback-area"></div>
 
-        <div id="q1-theory" class="theory-box">
-            <h3>Final Answer & Detailed Explanation</h3>
-            <p><strong>Correct Answer: Option B</strong></p>
+        <div id="q1-theory" class="theory-module">
+            <h3 style="color: var(--primary-blue);">Comprehensive Solution & Theory</h3>
             
-            <div class="diagram-box">
+            <p>The performance of an induction motor is governed by the torque equation. To maximize starting torque, external resistance is often added to the rotor circuit, but this does not increase the maximum possible torque the motor can produce.</p>
+
+            <div class="diagram-placeholder">
                 
             </div>
 
-            <p>The Torque (T) equation of an induction motor is:</p>
-            <div class="equation-style">
+            <div class="equation-block">
                 Torque = (3 ÷ ω<sub>s</sub>) × (s E<sub>2</sub><sup>2</sup> R<sub>2</sub>) ÷ (R<sub>2</sub><sup>2</sup> + (s X<sub>2</sub>)<sup>2</sup>)
             </div>
 
-            <p><strong>Why Statement 3 is wrong:</strong><br>
-            Slip (s) = (N<sub>s</sub> - N<sub>r</sub>) ÷ N<sub>s</sub>. At starting, the rotor speed (N<sub>r</sub>) is 0. Therefore, s = N<sub>s</sub> ÷ N<sub>s</sub> = 1. Claiming it is zero is a fundamental error.</p>
-            
-            <p><strong>Why Statement 1 and 4 are correct:</strong><br>
-            While the <em>position</em> of the maximum torque shifts with R<sub>2</sub>, the actual <em>peak value</em> remains constant. This is why adding external resistance to slip-ring motors helps during start-up without reducing the peak capacity.</p>
+            <p><strong>Step-by-Step Analysis:</strong></p>
+            <p><span class="check">✔ Statement 1:</span> Maximum torque T<sub>max</sub> = (3 ÷ 2ω<sub>s</sub>) × (E<sub>2</sub><sup>2</sup> ÷ X<sub>2</sub>). Notice R<sub>2</sub> is not in the numerator or denominator of the peak value.</p>
+            <p><span class="check">✔ Statement 2:</span> Torque is proportional to E<sub>2</sub><sup>2</sup>. Since E<sub>2</sub> is proportional to Supply Voltage V, Torque is proportional to V<sup>2</sup>.</p>
+            <p><span class="cross">❌ Statement 3:</span> Slip s = (N<sub>s</sub> - N<sub>r</sub>) ÷ N<sub>s</sub>. At start, N<sub>r</sub> = 0, so s = 1. Slip is <strong>maximum</strong>, not zero.</p>
+            <p><span class="check">✔ Statement 4:</span> The slip at maximum torque s<sub>m</sub> = R<sub>2</sub> ÷ X<sub>2</sub>. Thus, increasing R<sub>2</sub> directly increases s<sub>m</sub>.</p>
         </div>
-    </section>
+    </div>
 
-    <hr style="margin: 50px 0; border: 0; border-top: 1px solid #e2e8f0;">
-
-    <section id="q2-container">
-        <h2>Q3. Nyquist Stability Criterion</h2>
-        <p><strong>Topic Introduction:</strong> The Nyquist Criterion is a graphical method in control theory that predicts closed-loop stability based on the open-loop frequency response. It is unique because it handles systems with "Right Half Plane" poles.</p>
-        
-        <div class="option-group">
-            <div class="option-row">
-                <button class="opt-btn opt-a" onclick="checkAns('q2', 'A')">A) 1 and 2 only</button>
-                <button class="info-btn" onclick="toggleInfo('i2a')">Option Info</button>
-            </div>
-            <div id="i2a" class="pop-text">Focuses on the basic mechanism of mapping but omits the requirement of open-loop pole count.</div>
-
-            <div class="option-row">
-                <button class="opt-btn opt-b" onclick="checkAns('q2', 'B')">B) 1, 2 and 4 only</button>
-                <button class="info-btn" onclick="toggleInfo('i2b')">Option Info</button>
-            </div>
-            <div id="i2b" class="pop-text">The complete set of conditions required to determine Z (closed-loop poles).</div>
-
-            <div class="option-row">
-                <button class="opt-btn opt-c" onclick="checkAns('q2', 'C')">C) 2 and 3 only</button>
-                <button class="info-btn" onclick="toggleInfo('i2c')">Option Info</button>
-            </div>
-            <div id="i2c" class="pop-text">Incorrectly assumes the criterion is limited only to minimum phase systems.</div>
-        </div>
-
-        <div id="q2-feedback" class="feedback"></div>
-
-        <div id="q2-theory" class="theory-box">
-            <h3>Final Answer & Detailed Explanation</h3>
-            <p><strong>Correct Answer: Option B</strong></p>
-
-            <div class="diagram-box">
-                
-            </div>
-
-            <p>The core of the Nyquist Criterion is the Principle of Argument, expressed as:</p>
-            <div class="equation-style">
-                N = Z - P
-            </div>
-            <ul>
-                <li><strong>N:</strong> Clockwise encirclements of the critical point (-1, 0).</li>
-                <li><strong>P:</strong> Open-loop poles in the Right Half Plane.</li>
-                <li><strong>Z:</strong> Resultant closed-loop poles in the Right Half Plane (must be 0 for stability).</li>
-            </ul>
-
-            <p><strong>Why Statement 3 is wrong:</strong><br>
-            Nyquist is specifically powerful because it <em>does</em> apply to non-minimum phase systems (systems with zeros in the right half plane) and systems that are unstable in open-loop.</p>
-        </div>
-    </section>
-</div>
+    </div>
 
 <script>
-    function toggleInfo(id) {
+    function toggleCardInfo(id) {
         const el = document.getElementById(id);
         el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
 
-    function checkAns(qId, choice) {
-        const feedback = document.getElementById(qId + '-feedback');
-        const theory = document.getElementById(qId + '-theory');
+    function selectOption(qPrefix, choice) {
+        const feedback = document.getElementById(qPrefix + '-feedback');
+        const theory = document.getElementById(qPrefix + '-theory');
         
         feedback.style.display = 'block';
         theory.style.display = 'block';
 
         if (choice === 'B') {
-            feedback.innerHTML = "Correct! Well done.";
-            feedback.style.backgroundColor = "#ecfdf5";
-            feedback.style.color = "#059669";
-            feedback.style.border = "1px solid #059669";
+            feedback.innerHTML = "Correct Answer! Option B is the right choice.";
+            feedback.style.background = "#e6f4ea";
+            feedback.style.color = "#137333";
+            feedback.style.border = "2px solid #137333";
         } else {
-            feedback.innerHTML = "Incorrect. Let's look at why Option B is the right choice below.";
-            feedback.style.backgroundColor = "#fef2f2";
-            feedback.style.color = "#dc2626";
-            feedback.style.border = "1px solid #dc2626";
+            feedback.innerHTML = "Wrong Answer. The correct choice is Option B. See the analysis below.";
+            feedback.style.background = "#fce8e6";
+            feedback.style.color = "#c5221f";
+            feedback.style.border = "2px solid #c5221f";
         }
-        
-        // Scroll to theory
-        theory.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        theory.scrollIntoView({ behavior: 'smooth' });
     }
 </script>
 
