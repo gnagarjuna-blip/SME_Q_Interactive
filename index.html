@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrical Engineering Quiz & Analysis</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/dist/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #2980b9; margin-top: 30px; }
+        .topic-intro {
+            background: #eef7fd;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .question-box {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .options-list { list-style: none; padding: 0; }
+        .option-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .explain-btn {
+            margin-left: auto;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+        .explain-btn:hover { background: #2980b9; }
+        .explanation-text {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0fff4;
+            border-radius: 8px;
+            border: 1px dashed #27ae60;
+        }
+        .correct-answer {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 1.1em;
+            margin: 15px 0;
+        }
+        .diagram-placeholder {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: #fafafa;
+            border: 1px solid #eee;
+        }
+        .analysis-section { margin-top: 20px; }
+        .status-correct { color: #27ae60; font-weight: bold; }
+        .status-incorrect { color: #e74c3c; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Engineering Concept Portal</h1>
+
+    <h2>Q1. Induction Motor Torque-Slip</h2>
+    
+    <div class="topic-intro">
+        <strong>About the Topic:</strong> Induction motor characteristics describe the relationship between the torque produced and the slip (difference between synchronous and actual speed). Understanding these curves is vital for analyzing motor performance during starting and varying load conditions.
+    </div>
+
+    <div class="question-box">
+        <p><strong>Consider the following statements regarding torque–slip characteristics of an induction motor:</strong></p>
+        <ol>
+            <li>Maximum torque is independent of rotor resistance.</li>
+            <li>Maximum torque is proportional to square of applied voltage.</li>
+            <li>At starting condition, slip is zero.</li>
+            <li>Increasing rotor resistance shifts maximum torque towards higher slip.</li>
+        </ol>
+
+        <p>Which of the above statements is/are correct?</p>
+        
+        <div class="options-list">
+            <div class="option-item">A) 1 and 2 only <button class="explain-btn" onclick="toggleExplain('exp1')">Explain</button></div>
+            <div class="option-item">B) 1, 2 and 4 only <button class="explain-btn" onclick="toggleExplain('exp1')">Explain</button></div>
+            <div class="option-item">C) 2 and 3 only <button class="explain-btn" onclick="toggleExplain('exp1')">Explain</button></div>
+            <div class="option-item">D) 1, 3 and 4 only <button class="explain-btn" onclick="toggleExplain('exp1')">Explain</button></div>
+        </div>
+
+        <div id="exp1" class="explanation-text">
+            <strong>Detailed Analysis:</strong>
+            <ul>
+                <li><strong>Statement 1:</strong> Correct. $$T_{max} = \frac{3V^2}{2\omega_s X_2}$$. Note that \(R_2\) is not in this formula.</li>
+                <li><strong>Statement 2:</strong> Correct. Torque is directly proportional to the square of the supply voltage (\(T \propto V^2\)).</li>
+                <li><strong>Statement 3:</strong> Incorrect. At start, \(N_r = 0\), so \(s = \frac{N_s - 0}{N_s} = 1\).</li>
+                <li><strong>Statement 4:</strong> Correct. The slip at which max torque occurs is \(s_m = \frac{R_2}{X_2}\). Increasing \(R_2\) increases \(s_m\).</li>
+            </ul>
+        </div>
+
+        <p class="correct-answer">✅ Correct Answer: Option B (1, 2 and 4 only)</p>
+
+        <div class="analysis-section">
+            <h3>Solution & Equations</h3>
+            <p>Torque Equation of 3-phase induction motor:</p>
+            <p>$$T = \frac{3}{\omega_s} \cdot \frac{s E_2^2 R_2}{R_2^2 + (s X_2)^2}$$</p>
+
+            <div class="diagram-placeholder">
+                
+                <p><em>Figure 1: Torque-Slip Curve</em></p>
+            </div>
+
+            <h4>Statement-wise Analysis</h4>
+            <p><span class="status-correct">✔ Statement 1:</span> Maximum torque value does NOT depend on rotor resistance. Rotor resistance only changes the slip point.</p>
+            <p><span class="status-correct">✔ Statement 2:</span> Rotor induced emf \(E_2 \propto V\). Since \(T \propto E_2^2\), then \(T \propto V^2\).</p>
+            <p><span class="status-incorrect">❌ Statement 3:</span> At starting, Rotor speed = 0. Slip \(s = 1\) (Maximum), not zero.</p>
+            <p><span class="status-correct">✔ Statement 4:</span> Increasing rotor resistance increases slip at max torque. This is used in slip-ring motors for high starting torque.</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>Q3. Nyquist Stability Criterion</h2>
+
+    <div class="topic-intro">
+        <strong>About the Topic:</strong> The Nyquist Stability Criterion is a graphical method used in control engineering to determine the stability of a closed-loop system by investigating the frequency response (polar plot) of its open-loop transfer function.
+    </div>
+
+    <div class="question-box">
+        <p><strong>Consider the following statements regarding Nyquist plot:</strong></p>
+        <ol>
+            <li>Nyquist plot determines closed-loop stability using open-loop response.</li>
+            <li>Stability depends on encirclements of (–1, 0).</li>
+            <li>Nyquist criterion applies only to minimum phase systems.</li>
+            <li>Encirclements depend on number of open-loop RHP poles.</li>
+        </ol>
+
+        <div class="options-list">
+            <div class="option-item">A) 1 and 2 only <button class="explain-btn" onclick="toggleExplain('exp2')">Explain</button></div>
+            <div class="option-item">B) 1, 2 and 4 only <button class="explain-btn" onclick="toggleExplain('exp2')">Explain</button></div>
+            <div class="option-item">C) 2 and 3 only <button class="explain-btn" onclick="toggleExplain('exp2')">Explain</button></div>
+            <div class="option-item">D) 1, 3 and 4 only <button class="explain-btn" onclick="toggleExplain('exp2')">Explain</button></div>
+        </div>
+
+        <div id="exp2" class="explanation-text">
+            <strong>Detailed Analysis:</strong>
+            <p>The stability is governed by the formula \(N = P - Z\). It handles both minimum and non-minimum phase systems, making Statement 3 false. Statements 1, 2, and 4 are fundamental properties of the Nyquist Criterion.</p>
+        </div>
+
+        <p class="correct-answer">✅ Correct Answer: Option B (1, 2 and 4 only)</p>
+
+        <div class="analysis-section">
+            <h3>Solution & Nyquist Criterion</h3>
+            <p>$$N = Z - P$$</p>
+            <ul>
+                <li><strong>N:</strong> Net clockwise encirclements of the critical point (-1, j0).</li>
+                <li><strong>Z:</strong> Number of closed-loop poles in the Right Half Plane (RHP).</li>
+                <li><strong>P:</strong> Number of open-loop poles in the Right Half Plane (RHP).</li>
+            </ul>
+
+            <div class="diagram-placeholder">
+                
+                <p><em>Figure 2: Nyquist Plot Analysis</em></p>
+            </div>
+
+            <h4>Statement-wise Analysis</h4>
+            <p><span class="status-correct">✔ Statement 1:</span> Uses open-loop \(G(s)H(s)\) to predict closed-loop stability.</p>
+            <p><span class="status-correct">✔ Statement 2:</span> The critical point for stability is always (-1, 0).</p>
+            <p><span class="status-incorrect">❌ Statement 3:</span> Nyquist applies to both minimum and non-minimum phase systems, including those with RHP poles/zeros.</p>
+            <p><span class="status-correct">✔ Statement 4:</span> The number of encirclements required for stability is directly tied to the number of open-loop RHP poles (\(P\)).</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleExplain(id) {
+        var x = document.getElementById(id);
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+        }
+    }
+</script>
+
+</body>
+</html>
