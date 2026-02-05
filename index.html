@@ -3,268 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Engineering Module</title>
+    <title>Engineering Concept Masterclass</title>
     <style>
         :root {
             --primary-blue: #1a73e8;
-            --success-green: #188038;
-            --error-red: #d93025;
-            --theory-bg: #f8f9fa;
+            --deep-slate: #2c3e50;
+            --success-green: #2ecc71;
+            --error-red: #e74c3c;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #e9ecef;
-            color: #202124;
-            line-height: 1.6;
-            padding: 40px 20px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f2f5;
+            color: var(--deep-slate);
+            line-height: 1.8;
+            padding: 40px 15px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 950px;
             margin: auto;
-            background: white;
+            background: #ffffff;
             padding: 50px;
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
-        h1 { text-align: center; color: var(--primary-blue); font-size: 2.5rem; margin-bottom: 50px; }
-        h2 { color: #3c4043; border-left: 10px solid var(--primary-blue); padding-left: 20px; margin-top: 40px; }
+        .main-heading {
+            text-align: center;
+            color: var(--primary-blue);
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        /* Full Color Option Cards */
-        .options-grid {
+        .topic-intro {
+            background: #eef6ff;
+            border-left: 10px solid var(--primary-blue);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 35px;
+            font-size: 1.1rem;
+        }
+
+        .question-card {
+            border: 2px solid #e1e4e8;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+
+        h2 { font-size: 1.8rem; margin-top: 0; color: #34495e; }
+
+        /* Full Color Interactive Option Cards */
+        .options-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin: 30px 0;
         }
 
-        .option-wrapper { display: flex; flex-direction: column; gap: 10px; }
-
-        .option-card {
-            padding: 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: white;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: none;
+        .option-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .option-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
+        .card {
+            padding: 25px;
+            border-radius: 15px;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
 
-        /* Option Colors */
-        .opt-a { background: linear-gradient(135deg, #ff5f6d, #ffc371); }
-        .opt-b { background: linear-gradient(135deg, #11998e, #38ef7d); }
-        .opt-c { background: linear-gradient(135deg, #2193b0, #6dd5ed); }
-        .opt-d { background: linear-gradient(135deg, #ee0979, #ff6a00); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
 
-        .btn-explain {
-            background: #f1f3f4;
-            border: 1px solid #dadce0;
+        .btn-a { background: linear-gradient(135deg, #FF416C, #FF4B2B); }
+        .btn-b { background: linear-gradient(135deg, #1D976C, #93F9B9); }
+        .btn-c { background: linear-gradient(135deg, #00B4DB, #0083B0); }
+        .btn-d { background: linear-gradient(135deg, #f7971e, #ffd200); }
+
+        .explain-btn {
+            background: white;
+            border: 2px solid #bdc3c7;
             padding: 8px;
             border-radius: 10px;
-            font-size: 0.9rem;
-            cursor: help;
+            cursor: pointer;
+            font-weight: 600;
+            color: #7f8c8d;
         }
 
-        .pop-explanation {
+        .explain-btn:hover { background: #f8f9fa; color: #2c3e50; }
+
+        .hidden-explanation {
             display: none;
-            background: #fff9c4;
+            background: #fff8e1;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 0.95rem;
-            font-style: italic;
+            border-left: 5px solid #ffc107;
         }
 
-        /* Feedback & Theory */
-        .feedback-banner {
+        /* Feedback and Solution Display */
+        .feedback {
             display: none;
-            padding: 20px;
-            border-radius: 12px;
             text-align: center;
-            font-size: 1.4rem;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.5rem;
             font-weight: bold;
-            margin: 20px 0;
+            margin: 25px 0;
         }
 
-        .theory-section {
+        .solution-module {
             display: none;
-            background: var(--theory-bg);
-            padding: 30px;
+            background: #fdfdfd;
+            border: 1px solid #dee2e6;
+            padding: 35px;
             border-radius: 20px;
-            border: 1px solid #dadce0;
             margin-top: 30px;
         }
 
-        .equation-box {
-            background: white;
-            padding: 20px;
+        .math-display {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 15px;
             text-align: center;
-            font-size: 1.5rem;
-            font-family: "Times New Roman", serif;
-            border-radius: 12px;
-            margin: 20px 0;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            font-family: "Times New Roman", Times, serif;
+            font-size: 1.6rem;
+            margin: 25px 0;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            color: #2c3e50;
         }
 
-        .diagram-container { text-align: center; margin: 30px 0; }
-        .status-check { color: var(--success-green); font-weight: bold; }
-        .status-cross { color: var(--error-red); font-weight: bold; }
+        .diagram-box {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px dashed #cbd5e0;
+            border-radius: 15px;
+        }
+
+        .correct-text { color: var(--success-green); font-weight: bold; }
+        .wrong-text { color: var(--error-red); font-weight: bold; }
+
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Interactive SME Engineering Portal</h1>
+    <h1 class="main-heading">Engineering Interactive Learning</h1>
 
     <section>
-        <h2>Q1. Induction Motor Torque–Slip Analysis</h2>
-        <p><strong>Topic Introduction:</strong> The torque–slip characteristic of an induction motor describes how the mechanical torque developed by the motor changes as the slip (the difference between synchronous and rotor speed) varies. [cite_start]This relationship is crucial for understanding motor starting behavior and stable operation under load[cite: 1, 2, 13, 14].</p>
-
-        <p><strong>Consider the following statements:</strong></p>
-        <ol>
-            [cite_start]<li>Maximum torque is independent of rotor resistance[cite: 3].</li>
-            [cite_start]<li>Maximum torque is proportional to square of applied voltage[cite: 4].</li>
-            [cite_start]<li>At starting condition, slip is zero[cite: 5].</li>
-            [cite_start]<li>Increasing rotor resistance shifts maximum torque towards higher slip[cite: 6].</li>
-        </ol>
-
-        <div class="options-grid">
-            <div class="option-wrapper">
-                <button class="option-card opt-a" onclick="handleAnswer('q1', 'A')">A) 1 and 2 only</button>
-                <button class="btn-explain" onclick="toggleHint('h1a')">Why this logic?</button>
-                [cite_start]<div id="h1a" class="pop-explanation">Recognizes peak torque and voltage relationships but overlooks the mechanical shift caused by rotor resistance[cite: 32].</div>
-            </div>
-            <div class="option-wrapper">
-                <button class="option-card opt-b" onclick="handleAnswer('q1', 'B')">B) 1, 2 and 4 only</button>
-                <button class="btn-explain" onclick="toggleHint('h1b')">Why this logic?</button>
-                <div id="h1b" class="pop-explanation">Correct selection. [cite_start]It covers torque independence, voltage proportionality, and the slip-shift property[cite: 10, 32].</div>
-            </div>
-            <div class="option-wrapper">
-                <button class="option-card opt-c" onclick="handleAnswer('q1', 'C')">C) 2 and 3 only</button>
-                <button class="btn-explain" onclick="toggleHint('h1c')">Why this logic?</button>
-                [cite_start]<div id="h1c" class="pop-explanation">Fails because it includes the incorrect assumption that slip is zero at starting[cite: 32].</div>
-            </div>
-            <div class="option-wrapper">
-                <button class="option-card opt-d" onclick="handleAnswer('q1', 'D')">D) 1, 3 and 4 only</button>
-                <button class="btn-explain" onclick="toggleHint('h1d')">Why this logic?</button>
-                [cite_start]<div id="h1d" class="pop-explanation">Includes Statement 4 correctly but is invalidated by the incorrect Statement 3 regarding starting slip[cite: 32].</div>
-            </div>
+        <div class="topic-intro">
+            <strong>Theory: Torque–Slip Characteristics</strong><br>
+            An induction motor develops torque through electromagnetic induction between the stator and rotor. The "slip" represents the difference between the speed of the magnetic field and the actual rotor speed. Understanding this curve is vital for controlling starting torque and motor efficiency.
         </div>
 
-        <div id="q1-feedback" class="feedback-banner"></div>
+        <div class="question-card">
+            <h2>Q1. Induction Motor Statement Analysis</h2>
+            <p><strong>Identify which statements are correct:</strong></p>
+            <ol>
+                <li>Maximum torque is independent of rotor resistance.</li>
+                <li>Maximum torque is proportional to square of applied voltage.</li>
+                <li>At starting condition, slip is zero.</li>
+                <li>Increasing rotor resistance shifts maximum torque towards higher slip.</li>
+            </ol>
 
-        <div id="q1-theory" class="theory-section">
-            <h3>Technical Explanation & Solution</h3>
-            [cite_start]<p>The Torque (T) produced by a 3-phase induction motor is determined by the interaction of the stator flux and rotor currents[cite: 11].</p>
-            
-            <div class="diagram-container">
-                                [cite_start]<p><em>Fig 1: Torque–Slip Characteristic regions [cite: 13]</em></p>
+            <div class="options-container">
+                <div class="option-box">
+                    <button class="card btn-a" onclick="submitAnswer('q1', 'A')">A) 1 and 2 only</button>
+                    <button class="explain-btn" onclick="toggleHint('h1a')">Explore Logic</button>
+                    <div id="h1a" class="hidden-explanation">This overlooks the shift in peak position caused by resistance changes mentioned in statement 4.</div>
+                </div>
+                <div class="option-box">
+                    <button class="card btn-b" onclick="submitAnswer('q1', 'B')">B) 1, 2 and 4 only</button>
+                    <button class="explain-btn" onclick="toggleHint('h1b')">Explore Logic</button>
+                    <div id="h1b" class="hidden-explanation">The most accurate selection, recognizing the fundamental laws of peak torque and resistance-slip proportionality.</div>
+                </div>
+                <div class="option-box">
+                    <button class="card btn-c" onclick="submitAnswer('q1', 'C')">C) 2 and 3 only</button>
+                    <button class="explain-btn" onclick="toggleHint('h1c')">Explore Logic</button>
+                    <div id="h1c" class="hidden-explanation">Incorrect. Statement 3 suggests the motor is already at full speed at the start, which is impossible.</div>
+                </div>
+                <div class="option-box">
+                    <button class="card btn-d" onclick="submitAnswer('q1', 'D')">D) 1, 3 and 4 only</button>
+                    <button class="explain-btn" onclick="toggleHint('h1d')">Explore Logic</button>
+                    <div id="h1d" class="hidden-explanation">Incorrect. The inclusion of statement 3 makes this entire set false despite having other correct parts.</div>
+                </div>
             </div>
 
-            <div class="equation-box">
-                [cite_start]T ∝ (s E<sub>2</sub><sup>2</sup> R<sub>2</sub>) ÷ (R<sub>2</sub><sup>2</sup> + (s X<sub>2</sub>)<sup>2</sup>) [cite: 12]
-            </div>
+            <div id="q1-feedback" class="feedback"></div>
 
-            <h4>Statement-wise Analysis:</h4>
-            <ul>
-                [cite_start]<li><span class="status-check">✔ Statement 1:</span> Maximum torque value does NOT depend on rotor resistance[cite: 16, 17]. [cite_start]Rotor resistance only changes the slip at which it occurs[cite: 18].</li>
-                [cite_start]<li><span class="status-check">✔ Statement 2:</span> Torque ∝ emf² and emf ∝ V. Thus, Torque ∝ V<sup>2</sup>[cite: 19, 21].</li>
-                [cite_start]<li><span class="status-cross">❌ Statement 3:</span> At starting, rotor speed = 0, so slip = (N<sub>s</sub> - 0) ÷ N<sub>s</sub> = 1. Slip is maximum, not zero[cite: 23, 24, 25, 26].</li>
-                <li><span class="status-check">✔ Statement 4:</span> s<sub>max</sub> = R<sub>2</sub> ÷ X<sub>2</sub>. [cite_start]Increasing rotor resistance increases the slip at which maximum torque occurs, which is helpful in slip-ring motors for high starting torque[cite: 27, 28, 29, 30].</li>
-            </ul>
+            <div id="q1-solution" class="solution-module">
+                <h3>Final Answer: Option B</h3>
+                <div class="diagram-box">
+                    
+                </div>
+                <div class="math-display">
+                    Torque ∝ (s × E<sub>2</sub><sup>2</sup> × R<sub>2</sub>) ÷ (R<sub>2</sub><sup>2</sup> + (s × X<sub>2</sub>)<sup>2</sup>)
+                </div>
+
+                <p><span class="correct-text">✔ Statement 1:</span> Maximum torque value does NOT depend on rotor resistance; it only affects the timing.</p>
+                <p><span class="correct-text">✔ Statement 2:</span> Since Torque ∝ emf² and emf ∝ Voltage, then Torque ∝ V<sup>2</sup>.</p>
+                <p><span class="wrong-text">❌ Statement 3:</span> At starting, Rotor Speed = 0. Therefore, Slip = 1 (Maximum), not zero.</p>
+                <p><span class="correct-text">✔ Statement 4:</span> Resistance increases the slip at which max torque occurs. This is why slip-ring motors have high starting torque.</p>
+            </div>
         </div>
     </section>
 
-    <hr style="margin: 60px 0; border: 0; border-top: 2px dashed #dadce0;">
-
     <section>
-        <h2>Q3) Nyquist Stability Criterion</h2>
-        [cite_start]<p><strong>Topic Introduction:</strong> The Nyquist Stability Criterion is a frequency-domain method used in control engineering to determine the stability of a closed-loop system by observing the open-loop frequency response (Nyquist plot)[cite: 33, 48, 49, 57].</p>
-
-        <p><strong>Consider the following statements:</strong></p>
-        <ol>
-            [cite_start]<li>Nyquist plot determines closed-loop stability using open-loop response[cite: 36].</li>
-            [cite_start]<li>Stability depends on encirclements of (–1, 0)[cite: 37].</li>
-            [cite_start]<li>Nyquist criterion applies only to minimum phase systems[cite: 38].</li>
-            [cite_start]<li>Encirclements depend on number of open-loop RHP poles[cite: 39].</li>
-        </ol>
-
-        <div class="options-grid">
-            <div class="option-wrapper">
-                <button class="option-card opt-a" onclick="handleAnswer('q3', 'A')">A) 1 and 2 only</button>
-                <button class="btn-explain" onclick="toggleHint('h3a')">Why this logic?</button>
-                [cite_start]<div id="h3a" class="pop-explanation">Correct about the basics but misses the critical relationship with RHP poles[cite: 39, 41].</div>
-            </div>
-            <div class="option-wrapper">
-                <button class="option-card opt-b" onclick="handleAnswer('q3', 'B')">B) 1, 2 and 4 only</button>
-                <button class="btn-explain" onclick="toggleHint('h3b')">Why this logic?</button>
-                <div id="h3b" class="pop-explanation">Accurate choice. [cite_start]It identifies the open-loop to closed-loop stability prediction and the encirclement rules[cite: 41, 43].</div>
-            </div>
-            <div class="option-wrapper">
-                <button class="option-card opt-c" onclick="handleAnswer('q3', 'C')">C) 2 and 3 only</button>
-                <button class="btn-explain" onclick="toggleHint('h3c')">Why this logic?</button>
-                <div id="h3c" class="pop-explanation">Fails because Statement 3 is incorrect; [cite_start]Nyquist is famously versatile[cite: 61, 62].</div>
-            </div>
-            <div class="option-wrapper">
-                <button class="option-card opt-d" onclick="handleAnswer('q3', 'D')">D) 1, 3 and 4 only</button>
-                <button class="btn-explain" onclick="toggleHint('h3d')">Why this logic?</button>
-                [cite_start]<div id="h3d" class="pop-explanation">Invalidated by the inclusion of Statement 3[cite: 61, 62].</div>
-            </div>
+        <div class="topic-intro">
+            <strong>Theory: Nyquist Stability Criterion</strong><br>
+            This criterion is a graphical method for determining the stability of a feedback control system. It uses the frequency response of the open-loop transfer function to predict how the closed-loop system will behave.
         </div>
 
-        <div id="q3-feedback" class="feedback-banner"></div>
+        <div class="question-card">
+            <h2>Q3. Nyquist Stability Criterion Analysis</h2>
+            <p><strong>Consider the following regarding the Nyquist Plot:</strong></p>
+            <ol>
+                <li>Determines closed-loop stability using open-loop response.</li>
+                <li>Stability depends on encirclements of (–1, 0).</li>
+                <li>Applies only to minimum phase systems.</li>
+                <li>Encirclements depend on number of open-loop RHP poles.</li>
+            </ol>
 
-        <div id="q1-theory" class="theory-section" id="q3-theory" style="display:none">
-            <h3>Nyquist Plot Analysis</h3>
-            
-            <div class="diagram-container">
-                                [cite_start]<p><em>Fig 2: Conceptual Nyquist Plot [cite: 47]</em></p>
+            <div class="options-container">
+                <div class="option-box">
+                    <button class="card btn-a" onclick="submitAnswer('q3', 'A')">A) 1 and 2 only</button>
+                    <button class="explain-btn" onclick="toggleHint('h3a')">Explore Logic</button>
+                    <div id="h3a" class="hidden-explanation">A partial view that misses the mathematical relationship involving Right Half Plane poles.</div>
+                </div>
+                <div class="option-box">
+                    <button class="card btn-b" onclick="submitAnswer('q3', 'B')">B) 1, 2 and 4 only</button>
+                    <button class="explain-btn" onclick="toggleHint('h3b')">Explore Logic</button>
+                    <div id="h3b" class="hidden-explanation">Correct choice. It correctly links stability to the open-loop response and pole-encirclement math.</div>
+                </div>
+                <div class="option-box">
+                    <button class="card btn-c" onclick="submitAnswer('q3', 'C')">C) 2 and 3 only</button>
+                    <button class="explain-btn" onclick="toggleHint('h3c')">Explore Logic</button>
+                    <div id="h3c" class="hidden-explanation">Incorrect. Statement 3 is a common misconception; Nyquist is a universal tool for all phase types.</div>
+                </div>
             </div>
 
-            <div class="equation-box">
-                [cite_start]N = Z − P [cite: 45]
-            </div>
-            [cite_start]<p style="text-align:center"><em>Where: N = encirclements of (–1,0), Z = closed-loop RHP poles, P = open-loop RHP poles [cite: 46]</em></p>
+            <div id="q3-feedback" class="feedback"></div>
 
-            <h4>Detailed Analysis:</h4>
-            <ul>
-                <li><span class="status-check">✔ Statement 1:</span> Correct. [cite_start]It uses the open-loop transfer function G(s)H(s) to predict closed-loop stability[cite: 56, 57].</li>
-                <li><span class="status-check">✔ Statement 2:</span> Correct. [cite_start]The critical point for stability is at (–1, 0)[cite: 58, 59].</li>
-                <li><span class="status-cross">❌ Statement 3:</span> Incorrect. [cite_start]Nyquist applies to minimum, non-minimum phase systems, and systems with RHP poles[cite: 60, 61, 62].</li>
-                <li><span class="status-check">✔ Statement 4:</span> Correct. [cite_start]The number of encirclements (N) is directly tied to open-loop RHP poles (P) to determine Z[cite: 63, 64, 65].</li>
-            </ul>
+            <div id="q3-solution" class="solution-module">
+                <h3>Final Answer: Option B</h3>
+                <div class="diagram-box">
+                    
+                </div>
+                <div class="math-display">
+                    N = Z − P
+                </div>
+                <p style="text-align:center">N = Encirclements, Z = Closed-loop RHP poles, P = Open-loop RHP poles</p>
+
+                <p><span class="correct-text">✔ Statement 1:</span> Uses open-loop G(s)H(s) to predict stability of the total system.</p>
+                <p><span class="correct-text">✔ Statement 2:</span> The critical point for evaluating stability is (–1, 0).</p>
+                <p><span class="wrong-text">❌ Statement 3:</span> Nyquist is powerful because it applies to both minimum and non-minimum phase systems.</p>
+                <p><span class="correct-text">✔ Statement 4:</span> Encirclement count is a direct function of the number of open-loop RHP poles.</p>
+            </div>
         </div>
     </section>
 </div>
 
 <script>
     function toggleHint(id) {
-        const hint = document.getElementById(id);
-        hint.style.display = (hint.style.display === 'block') ? 'none' : 'block';
+        const h = document.getElementById(id);
+        h.style.display = (h.style.display === 'block') ? 'none' : 'block';
     }
 
-    function handleAnswer(qId, choice) {
+    function submitAnswer(qId, choice) {
         const feedback = document.getElementById(qId + '-feedback');
-        const theory = (qId === 'q1') ? document.getElementById('q1-theory') : document.getElementById('q3-theory');
+        const solution = document.getElementById(qId + '-solution');
         
-        theory.style.display = 'block';
         feedback.style.display = 'block';
+        solution.style.display = 'block';
 
         if (choice === 'B') {
-            feedback.innerHTML = "✅ Correct! Option B is the right choice.";
-            feedback.style.backgroundColor = "#e6f4ea";
-            feedback.style.color = "#137333";
+            feedback.innerHTML = "Excellent! Correct Answer.";
+            feedback.style.background = "#e8f5e9";
+            feedback.style.color = "#2e7d32";
         } else {
-            feedback.innerHTML = "❌ Wrong! The correct choice is Option B. See the explanation below.";
-            feedback.style.backgroundColor = "#fce8e6";
-            feedback.style.color = "#c5221f";
+            feedback.innerHTML = "Wrong Answer. Let's learn from the explanation below.";
+            feedback.style.background = "#ffebee";
+            feedback.style.color = "#c62828";
         }
-        theory.scrollIntoView({ behavior: 'smooth' });
+        solution.scrollIntoView({ behavior: 'smooth' });
     }
 </script>
 
