@@ -3,302 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Engineering Concept Masterclass</title>
+    <title>Enterprise CX Innovation Hub</title>
     <style>
         :root {
-            --primary-blue: #1a73e8;
-            --deep-slate: #2c3e50;
-            --success-green: #2ecc71;
-            --error-red: #e74c3c;
+            --alorica-red: #de2127; --navy: #0f172a; --slate: #1e293b;
+            --ghost: #f8fafc; --gold: #b45309; --emerald: #059669;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            background: var(--ghost); color: var(--slate); line-height: 1.6;
         }
 
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #f0f2f5;
-            color: var(--deep-slate);
-            line-height: 1.8;
-            padding: 40px 15px;
+        /* Global Top Navigation Bar */
+        .global-header {
+            background: var(--navy); color: white; padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .header-logo { font-weight: 900; letter-spacing: 1px; color: white; }
+        .header-logo span { color: var(--alorica-red); }
+        .global-tabs { display: flex; gap: 10px; }
+        .tab-btn {
+            background: transparent; border: none; color: #94a3b8;
+            padding: 10px 20px; font-weight: 700; font-size: 1rem;
+            cursor: pointer; transition: 0.3s; border-radius: 4px;
+        }
+        .tab-btn:hover { color: white; background: #1e293b; }
+        .tab-btn.active-tab { color: white; background: var(--alorica-red); }
+
+        /* Multi-Tab Dynamic View Containers */
+        .view-panel { display: none; margin-top: 75px; min-height: calc(100vh - 75px); }
+        .view-panel.active-panel { display: block; }
+
+        /* TAB 1: Home Dashboard Styling */
+        .home-hero { background: white; padding: 100px 10%; text-align: center; border-bottom: 1px solid #e2e8f0; }
+        .home-hero h1 { font-size: 3rem; color: var(--navy); margin-bottom: 20px; font-weight: 800; }
+        .home-hero p { font-size: 1.2rem; color: #64748b; max-width: 800px; margin: 0 auto 30px; }
+        .cta-btn {
+            background: var(--navy); color: white; padding: 15px 35px; border: none;
+            border-radius: 4px; font-weight: 700; cursor: pointer; font-size: 1.1rem; transition: 0.2s;
+        }
+        .cta-btn:hover { background: var(--alorica-red); }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 15px)); gap: 40px; padding: 80px 10%; }
+        .feature-card { background: white; padding: 40px; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border-top: 4px solid var(--slate); }
+
+        /* TAB 2: Embedded Manager Platform Sidebar & Sub-Layout */
+        .app-container { display: flex; min-height: calc(100vh - 75px); }
+        .sidebar { 
+            width: 320px; background: #131c2e; color: white; padding: 30px 0;
+            position: fixed; height: calc(100vh - 75px); overflow-y: auto;
+        }
+        .nav-link { 
+            padding: 18px 25px; display: block; color: #94a3b8; text-decoration: none;
+            font-weight: 600; transition: 0.3s; cursor: pointer; border-left: 5px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active { background: #1e293b; color: white; }
+        .nav-link.active { border-left-color: var(--alorica-red); }
+        .content-body { margin-left: 320px; padding: 50px 5%; width: calc(100% - 320px); }
+        .certification-card { 
+            background: white; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 50px; border-top: 8px solid var(--alorica-red);
         }
 
-        .container {
-            max-width: 950px;
-            margin: auto;
-            background: #ffffff;
-            padding: 50px;
-            border-radius: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-
-        .main-heading {
-            text-align: center;
-            color: var(--primary-blue);
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 50px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .topic-intro {
-            background: #eef6ff;
-            border-left: 10px solid var(--primary-blue);
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 35px;
-            font-size: 1.1rem;
-        }
-
-        .question-card {
-            border: 2px solid #e1e4e8;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 50px;
-        }
-
-        h2 { font-size: 1.8rem; margin-top: 0; color: #34495e; }
-
-        /* Full Color Interactive Option Cards */
-        .options-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .option-box {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .card {
-            padding: 25px;
-            border-radius: 15px;
-            border: none;
-            color: white;
-            font-size: 1.25rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-
-        .btn-a { background: linear-gradient(135deg, #FF416C, #FF4B2B); }
-        .btn-b { background: linear-gradient(135deg, #1D976C, #93F9B9); }
-        .btn-c { background: linear-gradient(135deg, #00B4DB, #0083B0); }
-        .btn-d { background: linear-gradient(135deg, #f7971e, #ffd200); }
-
-        .explain-btn {
-            background: white;
-            border: 2px solid #bdc3c7;
-            padding: 8px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            color: #7f8c8d;
-        }
-
-        .explain-btn:hover { background: #f8f9fa; color: #2c3e50; }
-
-        .hidden-explanation {
-            display: none;
-            background: #fff8e1;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            border-left: 5px solid #ffc107;
-        }
-
-        /* Feedback and Solution Display */
-        .feedback {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            border-radius: 15px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 25px 0;
-        }
-
-        .solution-module {
-            display: none;
-            background: #fdfdfd;
-            border: 1px solid #dee2e6;
-            padding: 35px;
-            border-radius: 20px;
-            margin-top: 30px;
-        }
-
-        .math-display {
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            font-family: "Times New Roman", Times, serif;
-            font-size: 1.6rem;
-            margin: 25px 0;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
-            color: #2c3e50;
-        }
-
-        .diagram-box {
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            border: 2px dashed #cbd5e0;
-            border-radius: 15px;
-        }
-
-        .correct-text { color: var(--success-green); font-weight: bold; }
-        .wrong-text { color: var(--error-red); font-weight: bold; }
-
+        /* Manager Specific Typography & Content Elements */
+        h2 { font-size: 1.8rem; color: var(--navy); margin: 40px 0 20px; border-left: 6px solid var(--alorica-red); padding-left: 20px; }
+        .exec-summary { font-size: 1.1rem; font-weight: 700; color: var(--gold); margin-bottom: 20px; text-transform: uppercase; }
+        .theory-paragraph { margin-bottom: 25px; text-align: justify; font-size: 1.05rem; color: #334155; }
+        .case-wrapper { margin: 40px 0; border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden; }
+        .case-header { background: #f1f5f9; padding: 20px 30px; font-weight: 800; color: var(--gold); border-bottom: 1px solid #e2e8f0; }
+        .case-content { padding: 30px; background: #fffcf5; }
+        .case-solution { padding: 30px; background: #f0fdf4; border-top: 2px solid #dcfce7; }
+        .p-space { margin-bottom: 15px; }
+        .blueprint-block { background: #fff; border: 2px solid #cbd5e1; border-radius: 6px; margin-bottom: 35px; overflow: hidden; }
+        .blueprint-header { background: var(--slate); color: white; padding: 20px 25px; font-weight: 700; }
+        .blueprint-body { padding: 25px; background: #f8fafc; }
+        .blueprint-textarea { width: 100%; height: 120px; padding: 12px; border: 2px solid #e2e8f0; border-radius: 4px; font-family: inherit; margin-bottom: 15px; resize: vertical; }
+        .blueprint-textarea:focus { outline: none; border-color: var(--alorica-red); }
+        .blueprint-btn { background: var(--navy); color: white; padding: 10px 20px; border: none; border-radius: 4px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .blueprint-btn:hover { background: var(--alorica-red); }
+        .blueprint-feedback { display: none; padding: 20px; margin-top: 15px; border-radius: 4px; background: #f0fdf4; border: 1px solid #bbf7d0; color: #14532d; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1 class="main-heading">Engineering Interactive Learning</h1>
+    <header class="global-header">
+        <div class="header-logo">ALORICA GLOBAL <span>LEADERSHIP</span></div>
+        <nav class="global-tabs">
+            <button class="tab-btn active-tab" id="btn-home" onclick="switchGlobalTab('home')">Home Hub</button>
+            <button class="tab-btn" id="btn-manager" onclick="switchGlobalTab('manager')">CX Manager Platform</button>
+        </nav>
+    </header>
 
-    <section>
-        <div class="topic-intro">
-            <strong>Theory: Torque–Slip Characteristics</strong><br>
-            An induction motor develops torque through electromagnetic induction between the stator and rotor. The "slip" represents the difference between the speed of the magnetic field and the actual rotor speed. Understanding this curve is vital for controlling starting torque and motor efficiency.
+    <section class="view-panel active-panel" id="panel-home">
+        <div class="home-hero">
+            <h1>Welcome to the CX Execution Hub</h1>
+            <p>Deploying advanced Predictive Churn Paradigms, Operations Framework Optimization, and Customer Experience Lifecycle Management Modules across enterprise landscapes.</p>
+            <button class="cta-btn" onclick="switchGlobalTab('manager')">Launch CX Optimization Platform →</button>
         </div>
-
-        <div class="question-card">
-            <h2>Q1. Induction Motor Statement Analysis</h2>
-            <p><strong>Identify which statements are correct:</strong></p>
-            <ol>
-                <li>Maximum torque is independent of rotor resistance.</li>
-                <li>Maximum torque is proportional to square of applied voltage.</li>
-                <li>At starting condition, slip is zero.</li>
-                <li>Increasing rotor resistance shifts maximum torque towards higher slip.</li>
-            </ol>
-
-            <div class="options-container">
-                <div class="option-box">
-                    <button class="card btn-a" onclick="submitAnswer('q1', 'A')">A) 1 and 2 only</button>
-                    <button class="explain-btn" onclick="toggleHint('h1a')">Explore Logic</button>
-                    <div id="h1a" class="hidden-explanation">This overlooks the shift in peak position caused by resistance changes mentioned in statement 4.</div>
-                </div>
-                <div class="option-box">
-                    <button class="card btn-b" onclick="submitAnswer('q1', 'B')">B) 1, 2 and 4 only</button>
-                    <button class="explain-btn" onclick="toggleHint('h1b')">Explore Logic</button>
-                    <div id="h1b" class="hidden-explanation">The most accurate selection, recognizing the fundamental laws of peak torque and resistance-slip proportionality.</div>
-                </div>
-                <div class="option-box">
-                    <button class="card btn-c" onclick="submitAnswer('q1', 'C')">C) 2 and 3 only</button>
-                    <button class="explain-btn" onclick="toggleHint('h1c')">Explore Logic</button>
-                    <div id="h1c" class="hidden-explanation">Incorrect. Statement 3 suggests the motor is already at full speed at the start, which is impossible.</div>
-                </div>
-                <div class="option-box">
-                    <button class="card btn-d" onclick="submitAnswer('q1', 'D')">D) 1, 3 and 4 only</button>
-                    <button class="explain-btn" onclick="toggleHint('h1d')">Explore Logic</button>
-                    <div id="h1d" class="hidden-explanation">Incorrect. The inclusion of statement 3 makes this entire set false despite having other correct parts.</div>
-                </div>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Retention Frameworks</h3>
+                <p style="margin-top: 15px; color: #64748b;">Analyze operational micro-telemetry signals and mitigate corporate customer attrition risk before explicit exit intents are recorded.</p>
             </div>
-
-            <div id="q1-feedback" class="feedback"></div>
-
-            <div id="q1-solution" class="solution-module">
-                <h3>Final Answer: Option B</h3>
-                <div class="diagram-box">
-                    
-                </div>
-                <div class="math-display">
-                    Torque ∝ (s × E<sub>2</sub><sup>2</sup> × R<sub>2</sub>) ÷ (R<sub>2</sub><sup>2</sup> + (s × X<sub>2</sub>)<sup>2</sup>)
-                </div>
-
-                <p><span class="correct-text">✔ Statement 1:</span> Maximum torque value does NOT depend on rotor resistance; it only affects the timing.</p>
-                <p><span class="correct-text">✔ Statement 2:</span> Since Torque ∝ emf² and emf ∝ Voltage, then Torque ∝ V<sup>2</sup>.</p>
-                <p><span class="wrong-text">❌ Statement 3:</span> At starting, Rotor Speed = 0. Therefore, Slip = 1 (Maximum), not zero.</p>
-                <p><span class="correct-text">✔ Statement 4:</span> Resistance increases the slip at which max torque occurs. This is why slip-ring motors have high starting torque.</p>
+            <div class="feature-card">
+                <h3>Interactive Blueprints</h3>
+                <p style="margin-top: 15px; color: #64748b;">Draft operational mitigation roadmaps for high-friction enterprise scenarios and cross-verify with corporate calibration benchmarks.</p>
             </div>
         </div>
     </section>
 
-    <section>
-        <div class="topic-intro">
-            <strong>Theory: Nyquist Stability Criterion</strong><br>
-            This criterion is a graphical method for determining the stability of a feedback control system. It uses the frequency response of the open-loop transfer function to predict how the closed-loop system will behave.
-        </div>
-
-        <div class="question-card">
-            <h2>Q3. Nyquist Stability Criterion Analysis</h2>
-            <p><strong>Consider the following regarding the Nyquist Plot:</strong></p>
-            <ol>
-                <li>Determines closed-loop stability using open-loop response.</li>
-                <li>Stability depends on encirclements of (–1, 0).</li>
-                <li>Applies only to minimum phase systems.</li>
-                <li>Encirclements depend on number of open-loop RHP poles.</li>
-            </ol>
-
-            <div class="options-container">
-                <div class="option-box">
-                    <button class="card btn-a" onclick="submitAnswer('q3', 'A')">A) 1 and 2 only</button>
-                    <button class="explain-btn" onclick="toggleHint('h3a')">Explore Logic</button>
-                    <div id="h3a" class="hidden-explanation">A partial view that misses the mathematical relationship involving Right Half Plane poles.</div>
-                </div>
-                <div class="option-box">
-                    <button class="card btn-b" onclick="submitAnswer('q3', 'B')">B) 1, 2 and 4 only</button>
-                    <button class="explain-btn" onclick="toggleHint('h3b')">Explore Logic</button>
-                    <div id="h3b" class="hidden-explanation">Correct choice. It correctly links stability to the open-loop response and pole-encirclement math.</div>
-                </div>
-                <div class="option-box">
-                    <button class="card btn-c" onclick="submitAnswer('q3', 'C')">C) 2 and 3 only</button>
-                    <button class="explain-btn" onclick="toggleHint('h3c')">Explore Logic</button>
-                    <div id="h3c" class="hidden-explanation">Incorrect. Statement 3 is a common misconception; Nyquist is a universal tool for all phase types.</div>
-                </div>
-            </div>
-
-            <div id="q3-feedback" class="feedback"></div>
-
-            <div id="q3-solution" class="solution-module">
-                <h3>Final Answer: Option B</h3>
-                <div class="diagram-box">
-                    
-                </div>
-                <div class="math-display">
-                    N = Z − P
-                </div>
-                <p style="text-align:center">N = Encirclements, Z = Closed-loop RHP poles, P = Open-loop RHP poles</p>
-
-                <p><span class="correct-text">✔ Statement 1:</span> Uses open-loop G(s)H(s) to predict stability of the total system.</p>
-                <p><span class="correct-text">✔ Statement 2:</span> The critical point for evaluating stability is (–1, 0).</p>
-                <p><span class="wrong-text">❌ Statement 3:</span> Nyquist is powerful because it applies to both minimum and non-minimum phase systems.</p>
-                <p><span class="correct-text">✔ Statement 4:</span> Encirclement count is a direct function of the number of open-loop RHP poles.</p>
-            </div>
+    <section class="view-panel" id="panel-manager">
+        <div class="app-container">
+            <aside class="sidebar">
+                <nav>
+                    <div class="nav-link active" id="nav-theory" onclick="navigateManagerSubView('theory')">Core Strategy & Theory</div>
+                    <div class="nav-link" id="nav-cases" onclick="navigateManagerSubView('cases')">Strategic Case Studies</div>
+                    <div class="nav-link" id="nav-blueprints" onclick="navigateManagerSubView('blueprints')">Action Blueprints</div>
+                </nav>
+            </aside>
+            <main class="content-body" id="manager-sub-view">
+                </main>
         </div>
     </section>
-</div>
 
 <script>
-    function toggleHint(id) {
-        const h = document.getElementById(id);
-        h.style.display = (h.style.display === 'block') ? 'none' : 'block';
+    // --- APP CONTROLLER NAVIGATION ---
+    function switchGlobalTab(targetTab) {
+        // Handle Header Tab Button Active States
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active-tab'));
+        document.getElementById(`btn-${targetTab}`).classList.add('active-tab');
+
+        // Handle Main Panel Visibility
+        document.querySelectorAll('.view-panel').forEach(panel => panel.classList.remove('active-panel'));
+        document.getElementById(`panel-${targetTab}`).classList.add('active-panel');
+
+        // If user switches to Manager, initialize the inner sub-view content automatically
+        if (targetTab === 'manager') {
+            navigateManagerSubView('theory');
+        }
     }
 
-    function submitAnswer(qId, choice) {
-        const feedback = document.getElementById(qId + '-feedback');
-        const solution = document.getElementById(qId + '-solution');
-        
-        feedback.style.display = 'block';
-        solution.style.display = 'block';
+    // --- INNER MANAGER SUBSYSTEM DATABASE & ARCHITECTURE ---
+    const DB = {
+        theory: {
+            title: "Proactive Retention Architecture & Predictive Churn Analytics",
+            content: `
+                <div class="theory-section">
+                    <div class="exec-summary">Mitigating Attrition via Predictive Intelligence Ecosystems</div>
+                    <p class="theory-paragraph">Modern Customer Experience Management dictates a structural shift away from reactive recovery metrics toward algorithmic, preemptive churn intervention frameworks. Relying strictly on post-interaction feedback creates an operational blind spot; by the time a consumer intentionally initiates a cancellation sequence, the psychological break with the brand has already solidified.</p>
+                    <p class="theory-paragraph">A highly critical architecture inside this retention paradigm is the Customer Lifetime Value (CLV) Preservation Engine. This analytical construct operates by synthesizing real-time operational telemetry with historical retention behaviors, generating proactive risk scores for accounts before transactional fractures occur.</p>
+                </div>`
+        },
+        cases: [
+            {
+                title: "CASE 01: The Corrupted Churn Scoring Model Failure",
+                problem: `<p class="p-space"><strong>Context:</strong> A major telecom provider integrated an unverified machine-learning churn model that omitted localized network disruption indicators.</p>`,
+                solution: `<p class="p-space"><strong>Resolution:</strong> The CX Manager restructured the model parameters, establishing a real-time service disruption multiplier that automatically elevates customer save operations.</p>`
+            }
+        ],
+        blueprints: [
+            { id: 1, title: "Blueprint Module 01: Retention Offer Entitlement Logic", instruction: "Design a prioritization logic framework for an automated chatbot tasked with managing cancellation intents.", feedback: "<strong>Expert Guidance Calibration:</strong> Strong retention frameworks avoid blanket discounting. Your roadmap should enforce an explicit tiered structure matching user lifetime value." }
+        ]
+    };
 
-        if (choice === 'B') {
-            feedback.innerHTML = "Excellent! Correct Answer.";
-            feedback.style.background = "#e8f5e9";
-            feedback.style.color = "#2e7d32";
-        } else {
-            feedback.innerHTML = "Wrong Answer. Let's learn from the explanation below.";
-            feedback.style.background = "#ffebee";
-            feedback.style.color = "#c62828";
+    function navigateManagerSubView(subView) {
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        const activeNav = document.getElementById(`nav-${subView}`);
+        if(activeNav) activeNav.classList.add('active');
+
+        const container = document.getElementById('manager-sub-view');
+        container.innerHTML = '';
+
+        const card = document.createElement('div');
+        card.className = 'certification-card';
+
+        if (subView === 'theory') {
+            card.innerHTML = `<h1>${DB.theory.title}</h1>${DB.theory.content}`;
+        } 
+        else if (subView === 'cases') {
+            let html = `<h1>Advanced Retention Corporate Case Studies</h1>`;
+            DB.cases.forEach(c => {
+                html += `
+                    <div class="case-wrapper">
+                        <div class="case-header">${c.title}</div>
+                        <div class="case-content"><h2>The Operational Breakdown</h2>${c.problem}</div>
+                        <div class="case-solution"><h2>Architectural Resolution</h2>${c.solution}</div>
+                    </div>`;
+            });
+            card.innerHTML = html;
+        } 
+        else if (subView === 'blueprints') {
+            let html = `<h1>Strategic Action Blueprints</h1>`;
+            DB.blueprints.forEach(b => {
+                html += `
+                    <div class="blueprint-block">
+                        <div class="blueprint-header">${b.title}</div>
+                        <div class="blueprint-body">
+                            <div class="blueprint-instruction">${b.instruction}</div>
+                            <textarea class="blueprint-textarea" id="textarea-${b.id}" placeholder="Type your strategic resolution roadmap here..."></textarea>
+                            <button class="blueprint-btn" onclick="submitBlueprint(${b.id})">Submit Strategy For Review</button>
+                            <div class="blueprint-feedback" id="feedback-${b.id}">${b.feedback}</div>
+                        </div>
+                    </div>`;
+            });
+            card.innerHTML = html;
         }
-        solution.scrollIntoView({ behavior: 'smooth' });
+        container.appendChild(card);
+    }
+
+    function submitBlueprint(id) {
+        const textarea = document.getElementById(`textarea-${id}`);
+        const feedback = document.getElementById(`feedback-${id}`);
+        if (textarea.value.trim() === "") {
+            alert("Please input your strategic blueprint text before requesting review.");
+            return;
+        }
+        feedback.style.display = "block";
     }
 </script>
-
 </body>
 </html>
